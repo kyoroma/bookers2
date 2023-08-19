@@ -14,8 +14,8 @@
         <table class="table" style="margin: 0 0 50px 5px;">
           <tr></tr>
           <tr style="padding-left: 30px;">
-            <td>name</td>
-            <td><%= current_user.name %></td>
+            <th>name</th>
+            <th><%= current_user.name %></th>
           </tr>
           <tr style="padding-left: 30px;">
             <th style="border: none;">introduction</th>
@@ -27,6 +27,7 @@
             <i class="fas fa-user-cog" aria-hidden="true"></i>
           </a>
         </div>
+    
           <div class="col-md-3" style="width: auto; margin-left: 10px">
           <h2>New book</h2>
           <%= form_with model: @book, url: books_path do |f| %>
@@ -46,7 +47,7 @@
       </div>
 
       <div class="col-md-8 offset-md-1">
-        <h2>Users</h2>
+        <h2 class="border-bottom pb-2">Users</h2>
         <table class="table table-hover table-inverse">
           <thead>
             <tr>
@@ -57,11 +58,11 @@
             </tr>
           </thead>
           <tbody>
-            <% @books.each do |book| %>
+            <% @users.each do |user| %>
               <tr>
-                <td style="width: 1%; white-space: nowrap;">
-                  <% if book.image.attached? %>
-                    <%= image_tag book.image.variant(resize: "100x100!") %>
+                <td style="white-space: nowrap;">
+                  <% if user.books.any? && user.books.first.image.attached? %>
+                    <%= image_tag user.books.first.image.variant(resize: "100x100!") %>
                   <% else %>
                     <%= image_tag "default-image.jpg", variant: "100x100!" %>
                   <% end %>
