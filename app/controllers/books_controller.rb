@@ -7,7 +7,7 @@ class BooksController < ApplicationController
   end
 
   def new
-    @book = current_user.books.build(id: nil)
+    @book = current_user.books.build
   end
 
   def create
@@ -48,6 +48,6 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :image)
+    params.permit(:title, :body, :image)
   end
 end

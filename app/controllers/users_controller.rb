@@ -7,11 +7,18 @@ class UsersController < ApplicationController
   end
   
   def create
+    @user = current_user.books.build(user_params)
+
+    if @user.save
+      flash[:notice] = "User was successfully created."
+      redirect_to user_path(user.id)
+    else
+      render :new
+    end
   end
   
   def show
-    @user = User.includes(:books).find(params[:id])
-    @books = @user.books
+    @user = User.find(params[:id])
   end
 
   def edit

@@ -51,9 +51,13 @@
             <tr>
               <td style="border: none; margin: 0; padding-bottom: 0;">
                 <% if @book.image.attached? %>
-                  <%= image_tag @book.image.variant(resize: "100x100!"), class: "mr-3" %>
+                  <%= link_to user_path(@book.user) do %>
+                    <%= image_tag(@book.image.variant(resize: "100x100!"), class: "mr-3") %>
+                  <% end %>
                 <% else %>
-                  <%= image_tag "default-image.jpg", class: "mr-3", style: "width: 100px; height: 100px;" %>
+                  <%= link_to user_path(@book.user) do %>
+                    <%= image_tag("default-image.jpg", class: "mr-3", style: "width: 100px; height: 100px;") %>
+                  <% end %>
                 <% end %>
               </td>
               <td style="vertical-align: top; border: none;">
@@ -66,7 +70,7 @@
                 <%= link_to "Edit", edit_book_path(@book), class: "btn btn-success" %>
               </td>
               <td style="border: none;">
-                <%= link_to "Delete", book_path(@book), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+                <%= link_to "Destroy", book_path(@book), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
               </td>
             </tr>
             <tr>
