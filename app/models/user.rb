@@ -7,4 +7,5 @@ class User < ApplicationRecord
          has_many :books, dependent: :destroy
          has_one_attached :avatar
          attribute :introduction, :string
+         validates :introduction, presence: false, length: { maximum: 50 }
 end

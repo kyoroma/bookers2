@@ -30,8 +30,8 @@ class BooksController < ApplicationController
   end
 
   def update
-    @book = current_user.books.find(params[:id])
-
+    @book = Book.find(params[:id])
+    puts "Book Params: #{params[:book]}"
     if @book.update(book_params)
       redirect_to @book, notice: 'Book was successfully updated.'
     else
@@ -48,6 +48,6 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.permit(:title, :body, :image)
+    params.require(:book).permit(:title, :body, :image, :author, :other_attributes)
   end
 end

@@ -5,7 +5,7 @@
       <div class="col-md-3">
         <h2>User info</h2>
         <% if @book.user.avatar.attached? %>
-          <%= image_tag @book.user.avatar.variant(resize: "150x150!"), class: "img-thumbnail" %>
+          <%= image_tag @book.user.avatar.variant(resize: "100x100!"), class: "img-thumbnail" %>
         <% else %>
           <%= image_tag "default-image.jpg", class: "mr-3", style: "width: 100px; height: 100px;" %>
         <% end %>
@@ -30,11 +30,11 @@
           <h2>New book</h2>
           <%= form_with model: @book do |f| %>
             <div class="form-group">
-              <%= f.label :title, style: "margin-bottom: 10px;" %>
+              <%= f.label :title, style: "margin-bottom: 10px;", autocomplete: "off" %>
               <%= f.text_field :title, class: "form-control", style: "margin-bottom: 10px;" %>
             </div>
             <div class="form-group">
-              <%= f.label :body, "Opinion", style: "margin: 10px 0;" %>
+              <%= f.label :body, "Opinion", style: "margin: 10px 0;", autocomplete: "off" %>
               <%= f.text_area :body, class: "form-control", style: "margin-bottom: 15px;" %>
             </div>
             <div class="form-group">
