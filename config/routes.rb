@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users
   root 'homes#index'
+  
+  
+  devise_for :users
   post 'books' => 'books#create'
   get '/about', to: 'homes#about', as: 'about'
   resources :users, only: [:index, :edit, :update, :show]

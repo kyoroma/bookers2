@@ -14,9 +14,10 @@ class BooksController < ApplicationController
     @book = current_user.books.build(book_params)
 
     if @book.save
-      flash[:notice] = "Book was successfully created."
+      flash[:notice] = "Book successfully created."
       redirect_to book_path(@book)
     else
+      flash[:error] = "Error creating book: Please check your input"
       render :new
     end
   end
@@ -33,8 +34,10 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     puts "Book Params: #{params[:book]}"
     if @book.update(book_params)
-      redirect_to @book, notice: 'Book was successfully updated.'
+      flash[:success] = "Book successfully updated!"
+      redirect_to @book
     else
+      flash[:error] = "Error updating book: Please check your input"
       render :edit
     end
   end

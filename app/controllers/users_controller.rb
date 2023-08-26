@@ -6,17 +6,6 @@ class UsersController < ApplicationController
     @books = Book.all
   end
   
-  def create
-    @user = current_user.books.build(user_params)
-
-    if @user.save
-      flash[:notice] = "User was successfully created."
-      redirect_to user_path(user.id)
-    else
-      render :new
-    end
-  end
-  
   def show
     @user = User.find(params[:id])
   end
@@ -27,10 +16,10 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
-  
     if @user.update(user_params)
-      redirect_to user_path(@user), notice: 'Profile was successfully updated.'
+      redirect_to user_path, notice: "Profile successfully updated!"
     else
+      flash.now[:alert] = "Error updating user."
       render :edit
     end
   end

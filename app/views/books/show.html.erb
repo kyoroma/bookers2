@@ -1,11 +1,14 @@
 <main>
+  <% flash.each do |message_type, message| %>
+    <div class="flash-message <%= message_type %>"><%= message %></div>
+  <% end %>
   <p id="notice"></p>
   <div class="container px-5 px-sm-0">
     <div class="row">
       <div class="col-md-3">
         <h2>User info</h2>
-        <% if @book.user.avatar.attached? %>
-          <%= image_tag @book.user.avatar.variant(resize: "100x100!"), class: "img-thumbnail" %>
+        <% if @book.user.profile_image.attached? %>
+          <%= image_tag @book.user.profile_image.variant(resize: "100x100!"), class: "img-thumbnail" %>
         <% else %>
           <%= image_tag "default-image.jpg", class: "mr-3", style: "width: 100px; height: 100px;" %>
         <% end %>
@@ -17,7 +20,7 @@
             <th><%= @book.user.name %></th>
           </tr>
           <tr style="padding-left: 30px;">
-            <th style="border: none;">introduction</th>
+            <th>introduction</th>
             <th style="border-bottom: none;"><%= @book.user.introduction %></th>
           </tr>
         </table>
@@ -26,7 +29,7 @@
             <i class="fas fa-user-cog" aria-hidden="true"></i>
           </a>
         </div>
-        <div class="col-md-3" style="width: auto; margin-left: 10px">
+        <div class="col-md-3" style="max-width: 100%;">
           <h2>New book</h2>
           <%= form_with model: @book do |f| %>
             <div class="form-group">
