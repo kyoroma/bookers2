@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:edit, :update]
-  
+
   def index
     @users = User.all
     @books = Book.all
   end
-  
+
   def show
     @user = User.find(params[:id])
   end
@@ -15,9 +15,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = current_user
+    @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to user_path, notice: "Profile successfully updated!"
+      redirect_to user_path(@user), notice: "Profile successfully updated!"
     else
       flash.now[:alert] = "Error updating user."
       render :edit
@@ -25,8 +25,8 @@ class UsersController < ApplicationController
   end
 
   private
-  
+
   def user_params
-    params.require(:user).permit(:name, :introduction, :email, :password, :password_confirmation, :current_password, :avatar)
+    params.require(:user).permit(:name, :introduction, :email, :password, :password_confirmation, :current_password, :profile_image)
   end
 end
