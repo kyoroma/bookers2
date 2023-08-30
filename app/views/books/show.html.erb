@@ -25,8 +25,10 @@
           </tr>
         </table>
         <div class="row" style="margin: 30px 0 20px 0;">
-          <%= link_to edit_user_path(current_user), class: "btn btn-outline-secondary btn-block" do %>
-            <i class="fas fa-user-cog" aria-hidden="true"></i>
+          <% if user_signed_in? %>
+            <%= link_to edit_user_path(current_user), class: "btn btn-outline-secondary btn-block" do %>
+              <i class="fas fa-user-cog" aria-hidden="true"></i>
+            <% end %>
           <% end %>
         </div>
         <div class="col-md-3" style="max-width: 100%;">
@@ -69,12 +71,14 @@
               <td style="border: none;"> 
                 <p style="display: inline;"><%= @book.body %></p>
               </td>
-              <td style="border: none;">
-                <%= link_to "Edit", edit_book_path(@book), class: "btn btn-success" %>
-              </td>
-              <td style="border: none;">
-                <%= link_to "Destroy", book_path(@book), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
-              </td>
+              <% if current_user == @book.user %>
+                <td style="border: none;">
+                  <%= link_to "Edit", edit_book_path(@book), class: "btn btn-success" %>
+                </td>
+                <td style="border: none;">
+                  <%= link_to "Destroy", book_path(@book), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+                </td>
+              <% end %>
             </tr>
             <tr>
               <td style="border: none; margin-top: 0; padding-top: 0;">

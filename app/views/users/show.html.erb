@@ -17,8 +17,12 @@
         <table class="table" style="margin: 0 0 50px 5px;">
           <tr></tr>
           <tr style="padding-left: 30px;">
-            <th>name</th>
-            <th><%= current_user.name %></th>
+            <% if user_signed_in? %>
+              <th>name</th>
+              <th><%= current_user.name %></th>
+            <% else %>
+              <th>Guest User</th>
+            <% end %>
           </tr>
           <tr style="padding-left: 30px;">
             <th>introduction</th>

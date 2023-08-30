@@ -1,9 +1,9 @@
 class BooksController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @books = Book.all
     @book = Book.new
+    @book.user_id = current_user.id
   end
 
   def new
@@ -12,14 +12,16 @@ class BooksController < ApplicationController
 
   def create
     @book = Book.new(book_params)
-    @book.user = current_user
+    
+    @book.user_id = current_user.id
 
     if @book.save
       flash[:notice] = "Book successfully created."
-      redirect_to book_path(@book)
+      redirect_to book_path(@book.id)
     else
       flash[:error] = "Error creating book: Please check your input"
-      render :new
+      @books = Book.all
+      render :index
     end
   end
 
@@ -29,6 +31,11 @@ class BooksController < ApplicationController
 
   def edit
     @book = current_user.books.find(params[:id])
+    
+    unless current_user == @book.user
+      flash[:error] = "You can only edit your own books."
+      redirect_to books_path
+    end
   end
 
   def update
@@ -42,7 +49,7 @@ class BooksController < ApplicationController
       render :edit
     end
   end
-  
+
   def destroy
     @book = current_user.books.find(params[:id])
     @book.destroy
@@ -52,6 +59,6 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :image, :author, :other_attributes)
+    params.require(:book).permit(:title, :body)
   end
 end
