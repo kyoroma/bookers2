@@ -12,7 +12,7 @@ class BooksController < ApplicationController
 
   def create
     @book = Book.new(book_params)
-    
+
     @book.user_id = current_user.id
 
     if @book.save
@@ -30,10 +30,10 @@ class BooksController < ApplicationController
   end
 
   def edit
-    @book = current_user.books.find(params[:id])
-    
-    unless current_user == @book.user
-      flash[:error] = "You can only edit your own books."
+    @book = current_user.books.find_by(id: params[:id])
+
+    if @book.nil?
+      flash[:error] = "Book not found or you don't have permission to edit it."
       redirect_to books_path
     end
   end
