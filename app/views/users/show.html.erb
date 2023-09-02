@@ -8,8 +8,8 @@
     <div class="row" style="flex-wrap: nowrap;">
       <div class="col-md-3">
         <h2>User info</h2>
-        <% if user_signed_in? && current_user.profile_image.attached? %>
-          <%= image_tag current_user.profile_image.variant(resize: "100x100!"), class: "img-thumbnail" %>
+        <% if user_signed_in? && @user.profile_image.attached? %>
+          <%= image_tag @user.profile_image.variant(resize: "100x100!"), class: "img-thumbnail" %>
         <% else %>
           <%= image_tag "default-image.jpg", class: "mr-3", style: "width: 100px; height: 100px;" %>
         <% end %>
@@ -19,19 +19,21 @@
           <tr style="padding-left: 30px;">
             <% if user_signed_in? %>
               <th>name</th>
-              <th><%= current_user.name %></th>
+              <th><%= @user.name %></th>
             <% else %>
               <th>Guest User</th>
             <% end %>
           </tr>
           <tr style="padding-left: 30px;">
             <th>introduction</th>
-            <th style="border-bottom: none;"><%= current_user.introduction %></th>
+            <th style="border-bottom: none;"><%= @user.introduction %></th>
           </tr>
         </table>
         <div class="row" style="margin: 30px 0 20px 0;">
-          <%= link_to edit_user_path(current_user), class: "btn btn-outline-secondary btn-block" do %>
-            <i class="fas fa-user-cog" aria-hidden="true"></i>
+          <% if user_signed_in? && current_user == @user %>
+            <%= link_to edit_user_path(current_user), class: "btn btn-outline-secondary btn-block" do %>
+              <i class="fas fa-user-cog" aria-hidden="true"></i>
+            <% end %>
           <% end %>
         </div>
           <div class="col-md-3" style="max-width: 100%;">
@@ -66,13 +68,13 @@
                 </tr>
               </thead>
               <tbody>
-                <% current_user.books.each do |book| %>
+                <% @user.books.each do |book| %>
                   <tr>
                     <td>
-                      <% if book.image.attached? %>
-                        <%= image_tag book.image.variant(resize: "100x100!") %>
+                      <% if @user.profile_image.attached? %>
+                        <%= link_to image_tag(@user.profile_image.variant(resize: "100x100!"), class: "img-thumbnail"), user_path(@user) %>
                       <% else %>
-                        <%= image_tag "default-image.jpg", variant: "100x100!" %>
+                        <%= link_to image_tag("default-image.jpg", class: "mr-3", style: "width: 100px; height: 100px;"), user_path(@user) %>
                       <% end %>
                     </td>
                     <td>

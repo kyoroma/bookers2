@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  before_action :correct_user, only: [:edit, :update]
 
   def index
     @books = Book.all
@@ -32,8 +33,8 @@ class BooksController < ApplicationController
   def edit
     @book = current_user.books.find_by(id: params[:id])
 
-    if @book.nil?
-      flash[:error] = "Book not found or you don't have permission to edit it."
+    if @book.user != current_user
+      flash[:error] = "You don't have permission to edit this book."
       redirect_to books_path
     end
   end
@@ -57,8 +58,17 @@ class BooksController < ApplicationController
   end
 
   private
+  
+  def correct_user
+    @book = Book.find(params[:id])
+    @user = @book.user
+      unless @book.user == current_user
+      redirect_to(books_path)
+      end
+  end
+
 
   def book_params
-    params.require(:book).permit(:title, :body)
+    params.require(:book).permit(:title, :body, :posts)
   end
 end
